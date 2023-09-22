@@ -22,48 +22,13 @@ namespace Homework_22_09
     public partial class Form1 : Form
     {
 
-        private bool sortByName;
-
-        public bool SortByName
-        {
-            get => sortByName;
-            set
-            {
-                if (value)
-                {
-                    if (!product_list.Any(p => !string.IsNullOrEmpty(p.Name) && char.IsLetter(p.Name[0])))
-                    {
-                        
-                    }
-                    product_list = new BindingList<Product>(product_list.OrderBy(p => p.Name).ToList());
-                    dataGridView1.DataSource = product_list;
-                }
-            }
-        }
-
         private Product selectedProduct;
 
         private BindingList<Product> product_list;
 
-
-
         public Form1()
         {
             InitializeComponent();
-
-            product_list = new BindingList<Product>();
-
-
-            dataGridView1.DataSource = product_list;
-            dataGridView1.AllowUserToAddRows = false;
-
-            dataGridView1.CellClick += dataGridView1_CellClick;
-
-            
-            
-            
-
-
 
             textBox1.Visible = false;
             textBox2.Visible = false;
@@ -73,10 +38,23 @@ namespace Homework_22_09
             button4.Visible = false;
             button5.Visible = false;
             button6.Visible = false;
-           
+
             label1.Visible = false;
             label2.Visible = false;
             label3.Visible = false;
+
+            
+
+            product_list = new BindingList<Product>();
+
+            
+
+            dataGridView1.DataSource = product_list;
+            dataGridView1.AllowUserToAddRows = false;
+
+            dataGridView1.CellClick += dataGridView1_CellClick;
+
+            
             
 
         }
@@ -165,6 +143,7 @@ namespace Homework_22_09
                 product_list.Last().Price = textBox3.Text;
             }
         }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -264,6 +243,7 @@ namespace Homework_22_09
             button3.Visible = false;
             
 
+
             label1.Visible = true;
 
             label1.Text = "Новое значение:";
@@ -329,6 +309,37 @@ namespace Homework_22_09
                 dataGridView1.DataSource = null;
                 dataGridView1.DataSource = product_list;
             }
+        }
+
+        private void SortByNameAscending()
+        {
+            product_list = new BindingList<Product>(product_list.OrderBy(p => p.Name).ToList());
+            dataGridView1.DataSource = product_list;
+        }
+
+        private void SortByNameDescending()
+        {
+            product_list = new BindingList<Product>(product_list.OrderByDescending(p => p.Name).ToList());
+            dataGridView1.DataSource = product_list;
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            SortByNameAscending();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            SortByNameDescending();
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+            string keyword = textBox6.Text.ToLower(); 
+
+            var filteredProducts = product_list.Where(product => product.Name.ToLower().Contains(keyword) || product.Category.ToLower().Contains(keyword) ||product.Price.ToLower().Contains(keyword)).ToList();
+
+            dataGridView1.DataSource = new BindingList<Product>(filteredProducts);
         }
     }
 }
