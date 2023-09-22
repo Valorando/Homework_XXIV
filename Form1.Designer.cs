@@ -38,6 +38,7 @@
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,6 +68,7 @@
             this.button2.TabIndex = 2;
             this.button2.Text = "Редактировать товар";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
@@ -117,19 +119,30 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(562, 184);
+            this.button4.Location = new System.Drawing.Point(599, 184);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(146, 23);
+            this.button4.Size = new System.Drawing.Size(157, 23);
             this.button4.TabIndex = 9;
             this.button4.Text = "Завершить добавление";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(599, 228);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(157, 23);
+            this.button5.TabIndex = 10;
+            this.button5.Text = "Завершить редактирование";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.textBox5);
             this.Controls.Add(this.textBox4);
@@ -160,6 +173,7 @@
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
     }
 }
 
