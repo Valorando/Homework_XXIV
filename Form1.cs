@@ -15,14 +15,38 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace Homework_22_09
 {
     public partial class Form1 : Form
     {
+
+        private bool sortByName;
+
+        public bool SortByName
+        {
+            get => sortByName;
+            set
+            {
+                if (value)
+                {
+                    if (!product_list.Any(p => !string.IsNullOrEmpty(p.Name) && char.IsLetter(p.Name[0])))
+                    {
+                        
+                    }
+                    product_list = new BindingList<Product>(product_list.OrderBy(p => p.Name).ToList());
+                    dataGridView1.DataSource = product_list;
+                }
+            }
+        }
+
         private Product selectedProduct;
 
         private BindingList<Product> product_list;
+
+
+
         public Form1()
         {
             InitializeComponent();
@@ -35,6 +59,9 @@ namespace Homework_22_09
 
             dataGridView1.CellClick += dataGridView1_CellClick;
 
+            
+            
+            
 
 
 
@@ -45,6 +72,12 @@ namespace Homework_22_09
             textBox5.Visible = false;
             button4.Visible = false;
             button5.Visible = false;
+            button6.Visible = false;
+           
+            label1.Visible = false;
+            label2.Visible = false;
+            label3.Visible = false;
+            
 
         }
 
@@ -142,6 +175,15 @@ namespace Homework_22_09
             button1.Visible = false;
             button2.Visible = false;
             button3.Visible = false;
+            
+
+            label1.Visible = true;
+            label2.Visible = true;
+            label3.Visible = true;
+
+            label1.Text = "Название:";
+            label2.Text = "Категория:";
+            label3.Text = "Цена:";
 
             Product product = new Product("пусто", "пусто", "пусто");
 
@@ -165,6 +207,11 @@ namespace Homework_22_09
             button1.Visible = true;
             button2.Visible = true;
             button3.Visible = true;
+           
+
+            label1.Visible = false;
+            label2.Visible = false;
+            label3.Visible = false;
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -181,6 +228,8 @@ namespace Homework_22_09
                 }
             }
         }
+
+
 
 
 
@@ -213,7 +262,11 @@ namespace Homework_22_09
             button1.Visible = false;
             button2.Visible = false;
             button3.Visible = false;
+            
 
+            label1.Visible = true;
+
+            label1.Text = "Новое значение:";
 
         }
 
@@ -224,6 +277,58 @@ namespace Homework_22_09
             button1.Visible = true;
             button2.Visible = true;
             button3.Visible = true;
+            
+
+            label1.Visible = false;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            button1.Visible = false;
+            button2.Visible = false;
+            button3.Visible = false;
+           
+
+            button6.Visible = true;
+            textBox5.Visible = true;
+
+            label1.Visible = true;
+
+            label1.Text = "Номер продукта для удаления:";
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            button6.Visible = false;
+            textBox5.Visible = false;
+
+            button1.Visible = true;
+            button2.Visible = true;
+            button3.Visible = true;
+
+            label1.Visible = false;
+        }
+
+        private int selectedRowIndex = +1;
+
+        private void DataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedCells.Count > 0)
+            {
+                selectedRowIndex = dataGridView1.SelectedCells[0].RowIndex;
+                textBox5.DataBindings.Clear();
+                textBox5.DataBindings.Add("Text", product_list, "[" + selectedRowIndex + "].Name");
+            }
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+            if (int.TryParse(textBox5.Text, out int index) && index >= 1 && index <= product_list.Count)
+            {
+                product_list.RemoveAt(index - 1);
+                dataGridView1.DataSource = null;
+                dataGridView1.DataSource = product_list;
+            }
         }
     }
 }
