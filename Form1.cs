@@ -20,6 +20,8 @@ namespace Homework_22_09
 {
     public partial class Form1 : Form
     {
+        private Product selectedProduct;
+
         private BindingList<Product> product_list;
         public Form1()
         {
@@ -31,10 +33,18 @@ namespace Homework_22_09
             dataGridView1.DataSource = product_list;
             dataGridView1.AllowUserToAddRows = false;
 
+            dataGridView1.CellClick += dataGridView1_CellClick;
+
+
+
+
             textBox1.Visible = false;
             textBox2.Visible = false;
             textBox3.Visible = false;
+            textBox4.Visible = false;
+            textBox5.Visible = false;
             button4.Visible = false;
+            button5.Visible = false;
 
         }
 
@@ -152,6 +162,65 @@ namespace Homework_22_09
             textBox2.Visible = false;
             textBox3.Visible = false;
             button4.Visible = false;
+            button1.Visible = true;
+            button2.Visible = true;
+            button3.Visible = true;
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                if (e.RowIndex < product_list.Count)
+                {
+                    
+                    textBox4.DataBindings.Clear();
+                    textBox4.DataBindings.Add("Text", dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex], "Value", true, DataSourceUpdateMode.OnPropertyChanged);
+
+                    selectedProduct = product_list[e.RowIndex];
+                }
+            }
+        }
+
+
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentCell != null && !string.IsNullOrWhiteSpace(textBox4.Text))
+            {
+                int rowIndex = dataGridView1.CurrentCell.RowIndex;
+                int columnIndex = dataGridView1.CurrentCell.ColumnIndex;
+                
+                dataGridView1.Rows[rowIndex].Cells[columnIndex].Value = textBox4.Text;
+
+                if (selectedProduct != null)
+                {
+                    if (columnIndex == 0)
+                        selectedProduct.Name = textBox4.Text;
+                    else if (columnIndex == 1)
+                        selectedProduct.Category = textBox4.Text;
+                    else if (columnIndex == 2)
+                        selectedProduct.Price = textBox4.Text;
+                }
+            }
+        }
+
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            textBox4.Visible = true;
+            button5.Visible = true;
+            button1.Visible = false;
+            button2.Visible = false;
+            button3.Visible = false;
+
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            textBox4.Visible = false;
+            button5.Visible = false;
             button1.Visible = true;
             button2.Visible = true;
             button3.Visible = true;
